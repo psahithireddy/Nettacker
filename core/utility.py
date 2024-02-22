@@ -445,10 +445,15 @@ def class_to_value(arrays):
         array_index += 1
     return original_arrays
 
+def detect_md5(content):
+    md5_value = re.findall(r'[a-fA-F\d]{32}', content)
+    return md5_value
 
 def generate_and_replace_md5(content):
-    # todo: make it betetr and document it
-    md5_content = content.split('NETTACKER_MD5_GENERATOR_START')[1].split('NETTACKER_MD5_GENERATOR_STOP')[0]
+    try :
+        md5_content = content.split('NETTACKER_MD5_GENERATOR_START')[1].split('NETTACKER_MD5_GENERATOR_STOP')[0]
+    except:
+        md5_content = detect_md5(content)
     md5_content_backup = md5_content
     if type(md5_content) == str:
         md5_content = md5_content.encode()
